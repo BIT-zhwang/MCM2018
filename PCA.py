@@ -1,0 +1,100 @@
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+import xlrd
+workbook=xlrd.open_workbook(r'C:\Users\Leibniz\Documents\MATLAB\C\ProblemCData.xlsx')
+TX=workbook.sheet_by_name('TX for PY')
+AZ=workbook.sheet_by_name('AZ for PY')
+NM=workbook.sheet_by_name('NM for PY')
+CA=workbook.sheet_by_name('CA for PY')
+MSN=workbook.sheet_by_name('MSN2')
+MSNlist=MSN.col_values(0)
+X=np.zeros([605,50])
+color=['blue','green','purple','pink','brown','red','orange','yellow','grey','teal','olive','salmon','beige','tan','aqua']
+plt.subplot(221)
+for i in range(0,605):
+    X[i]=AZ.col_values(i)
+print(np.isnan(X).any())
+#pca=PCA(n_components=2,svd_solver='full')
+pca=PCA(n_components=2,whiten=True)
+pca.fit(X)
+print(pca.transform(X))
+Y=pca.transform(X)
+#color=['blue','green','purple','pink','brown','red','orange','yellow','grey','teal','olive','salmon','beige','tan','aqua']
+clf=KMeans(n_clusters=10)
+clf.fit(Y)
+#plt.scatter(pca.transform(X)[:,0],pca.transform(X)[:,1],color = 1)
+for i in range(605):
+    plt.scatter(Y[i,0],Y[i,1],color=color[clf.labels_[i]])
+#plt.xlabel('year1')
+plt.ylabel('year2')
+plt.title('Cluster for AZ')
+#plt.axis('off')
+plt.xticks([])
+plt.yticks([])
+plt.subplot(222)
+for i in range(0,605):
+    X[i]=CA.col_values(i)
+print(np.isnan(X).any())
+#pca=PCA(n_components=2,svd_solver='full')
+pca=PCA(n_components=2,whiten=True)
+pca.fit(X)
+print(pca.transform(X))
+Y=pca.transform(X)
+clf=KMeans(n_clusters=10)
+clf.fit(Y)
+#plt.scatter(pca.transform(X)[:,0],pca.transform(X)[:,1],color = 1)
+for i in range(605):
+    plt.scatter(Y[i,0],Y[i,1],color=color[clf.labels_[i]])
+#plt.xlabel('year1')
+#plt.ylabel('year2')
+plt.title('Cluster for CA.')
+#plt.axis('off')
+plt.xticks([])
+plt.yticks([])
+plt.subplot(223)
+for i in range(0,605):
+    X[i]=NM.col_values(i)
+print(np.isnan(X).any())
+#pca=PCA(n_components=2,svd_solver='full')
+pca=PCA(n_components=2,whiten=True)
+pca.fit(X)
+print(pca.transform(X))
+Y=pca.transform(X)
+#color=['blue','green','purple','pink','brown','red','orange','yellow','grey','teal','olive','salmon','beige','tan','aqua']
+clf=KMeans(n_clusters=10)
+clf.fit(Y)
+#plt.scatter(pca.transform(X)[:,0],pca.transform(X)[:,1],color = 1)
+for i in range(605):
+    plt.scatter(Y[i,0],Y[i,1],color=color[clf.labels_[i]])
+plt.xlabel('year1')
+plt.ylabel('year2')
+plt.title('Cluster for NM.')
+#plt.axis('off')
+plt.xticks([])
+plt.yticks([])
+plt.subplot(224)
+for i in range(0,605):
+    X[i]=TX.col_values(i)
+print(np.isnan(X).any())
+#pca=PCA(n_components=2,svd_solver='full')
+pca=PCA(n_components=2,whiten=True)
+pca.fit(X)
+print(pca.transform(X))
+Y=pca.transform(X)
+#color=['blue','green','purple','pink','brown','red','orange','yellow','grey','teal','olive','salmon','beige','tan','aqua']
+clf=KMeans(n_clusters=10)
+clf.fit(Y)
+#plt.scatter(pca.transform(X)[:,0],pca.transform(X)[:,1],color = 1)
+for i in range(605):
+    plt.scatter(Y[i,0],Y[i,1],color=color[clf.labels_[i]])
+plt.xlabel('year1')
+#plt.ylabel('year2')
+plt.title('Cluster for TX')
+#plt.axis('off')
+plt.xticks([])
+plt.yticks([])
+plt.show()
+
+
